@@ -6,7 +6,17 @@
 //
 
 import Foundation
+#if !os(macOS)
 import UIKit
+#else
+import Cocoa
+
+class MyViewController: NSViewController {
+  override func loadView() {
+    self.view = NSView()
+  }
+}
+#endif
 @testable import GenericAppInitializer
 
 final class GenericAppInitializerMock: GenericAppInitializer<
@@ -30,9 +40,15 @@ final class GenericAppInitializerMock: GenericAppInitializer<
        return _serviceMock   
     }
     
-    override func initialViewControlller(using config: Config, errorHandler: ErrorHandler) -> UIViewController {
+    override func initialViewControlller(using config: Config, errorHandler: ErrorHandler) -> Controller {
         _initialViewControlllerCount += 1
+        
+        #if !os(macOS)
         return UIViewController()
+        #else
+        return MyViewController()
+        #endif
+        
     }
     
     override func getErrorHandlers(using config: Config) -> [ErrorHandlerNodeTemplate] {

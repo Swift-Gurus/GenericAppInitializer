@@ -19,7 +19,6 @@ struct MyError: LocalizedError {
 
 final class ErrorHandlerTesterMock: ErrorHandlerNodeTemplate {
     
-    
     var catchErrorCount = 0
     var proccessErrors: [Error] = []
     override var errorTypes: [Error.Type] {

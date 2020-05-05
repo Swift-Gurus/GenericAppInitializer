@@ -1,12 +1,33 @@
 import XCTest
 @testable import GenericAppInitializer
 
+#if !os(macOS)
+import UIKit
+#else
+import Cocoa
+
+
+
+
+#endif
+
+
+
 final class GenericAppInitializerTests: XCTestCase {
- 
-    var sut = GenericAppInitializerMock(window: UIWindow(frame: .zero))
+    lazy var _window: Window = {
+        #if !os(macOS)
+        return UIWindow(frame: .zero)
+        #else
+        return NSWindow(contentRect: .zero,
+                        styleMask: .borderless,
+                        backing: .buffered,
+                        defer: false)
+        #endif
+    }()
+    var sut: GenericAppInitializerMock!
     
     override func setUpWithError() throws {
-        sut = GenericAppInitializerMock(window: UIWindow(frame: .zero))
+        sut = GenericAppInitializerMock(window: _window)
     }
     
     func test_start_calls_services() {

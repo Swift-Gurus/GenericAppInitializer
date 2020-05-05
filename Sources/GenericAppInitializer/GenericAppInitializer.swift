@@ -7,7 +7,17 @@
 //
 
 import Foundation
+
+#if !os(macOS)
 import UIKit
+public typealias Window = UIWindow
+public typealias Controller = UIViewController
+#else
+import Cocoa
+public typealias Window = NSWindow
+public typealias Controller = NSViewController
+#endif
+
 import ALResult
 
 open class GenericAppInitializer<TypeProvider, ServiceProvider, Environment> where
@@ -15,7 +25,8 @@ TypeProvider: TargetTypeProvider,
 Environment: DictionaryInitializable & TestingValueProvidable {
     let currentTargetReader = GenericProjectTargetReader<TypeProvider>()
     let launchEnvironmentReader = GenericLaunchEnvReader<Environment>()
-    public let window: UIWindow
+    
+    public let window: Window
     public var serviceProvider: ServiceProvider!
     public var bundle: GenericBundle = GenericBundleImp()
     
@@ -33,7 +44,7 @@ Environment: DictionaryInitializable & TestingValueProvidable {
               target: currentTarget)
     }
     
-    init(window: UIWindow) {
+    init(window: Window) {
         self.window = window
     }
 
@@ -48,7 +59,9 @@ Environment: DictionaryInitializable & TestingValueProvidable {
     }
 
     open func initialViewControlller(using config: Config,
-                                     errorHandler: ErrorHandler) -> UIViewController {
+                                     errorHandler: ErrorHandler) -> Controller {
+        
+        
         fatalError("ABSCTRACT CLASSES")
     }
     
@@ -80,8 +93,13 @@ Environment: DictionaryInitializable & TestingValueProvidable {
 
     private func launchUI() {
 
-        window.rootViewController = initialViewControlller(using: currentConfig, errorHandler: errorHandlerChain)
+        let controller = initialViewControlller(using: currentConfig, errorHandler: errorHandlerChain)
+        #if !os(macOS)
+        window.rootViewController = controller
         window.makeKeyAndVisible()
+        #else
+        window.contentViewController = controller
+        #endif
     }
 
     private func createServiceProvider() {
