@@ -27,7 +27,7 @@ final class GenericAppInitializerTests: XCTestCase {
     var sut: GenericAppInitializerMock!
     
     override func setUpWithError() throws {
-        sut = GenericAppInitializerMock(window: _window)
+        sut = GenericAppInitializerMock()
     }
     
     func test_start_calls_services() {
@@ -36,7 +36,7 @@ final class GenericAppInitializerTests: XCTestCase {
     }
     
     func test_start_calls_get_serviceProvider() {
-        sut.start()
+        sut.launchUI(in: _window)
         XCTAssertEqual(sut._getServiceProviderCount, 1)
     }
     
@@ -46,18 +46,18 @@ final class GenericAppInitializerTests: XCTestCase {
     }
     
     func test_start_calls_get_initial_view_controller() {
-        sut.start()
+        sut.launchUI(in: _window)
         XCTAssertEqual(sut._initialViewControlllerCount, 1)
     }
     
     func test_checks_error_handler_is_passed() {
-        sut.start()
+        sut.launchUI(in: _window)
         sut._serviceMock.errorHandler.catchError(MyError.default)
         sut._errorTesterMock.checkCatchErrorCalled(expectedNumberOfTimes: 1)
     }
     
     func test_error_handler_proccessError_called() {
-        sut.start()
+        sut.launchUI(in: _window)
         sut._serviceMock.errorHandler.catchError(MyError.default)
         sut._errorTesterMock.checkErrorsAreOfType(MyError.self)
     }

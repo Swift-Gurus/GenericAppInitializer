@@ -20,14 +20,19 @@ public typealias Controller = NSViewController
 
 import ALResult
 
-open class GenericAppInitializer<TypeProvider, ServiceProvider, Environment> where
+public protocol UILaunching {
+    func launchUI(in window: Window)
+}
+
+
+open class GenericAppInitializer<TypeProvider, ServiceProvider, Environment>: UILaunching where
 TypeProvider: TargetTypeProvider,
 Environment: DictionaryInitializable & TestingValueProvidable {
     let currentTargetReader = GenericProjectTargetReader<TypeProvider>()
     let launchEnvironmentReader = GenericLaunchEnvReader<Environment>()
-    
-    public let window: Window
-    public var serviceProvider: ServiceProvider!
+    var serviceProvider: ServiceProvider {
+        getServiceProvider(config: currentConfig, errorHandler: errorHandlerChain)
+    }
     public var bundle: GenericBundle = GenericBundleImp()
     
     public var currentTarget: TypeProvider.T {
@@ -44,9 +49,7 @@ Environment: DictionaryInitializable & TestingValueProvidable {
               target: currentTarget)
     }
     
-    init(window: Window) {
-        self.window = window
-    }
+    public init() {}
 
     open func getServiceProvider(config: Config,
                                  errorHandler: ErrorHandler) -> ServiceProvider {
@@ -59,6 +62,7 @@ Environment: DictionaryInitializable & TestingValueProvidable {
     }
 
     open func initialViewControlller(using config: Config,
+                                     service: ServiceProvider,
                                      errorHandler: ErrorHandler) -> Controller {
         
         
@@ -87,23 +91,20 @@ Environment: DictionaryInitializable & TestingValueProvidable {
     }
 
     private func processServicesResponse() {
-        createServiceProvider()
-        launchUI()
+        //do nothing for now
     }
 
-    private func launchUI() {
-
-        let controller = initialViewControlller(using: currentConfig, errorHandler: errorHandlerChain)
+    public func launchUI(in window: Window) {
+        
+        let controller = initialViewControlller(using: currentConfig,
+                                                service: serviceProvider,
+                                                errorHandler: errorHandlerChain)
         #if !os(macOS)
         window.rootViewController = controller
         window.makeKeyAndVisible()
         #else
         window.contentViewController = controller
         #endif
-    }
-
-    private func createServiceProvider() {
-        serviceProvider = getServiceProvider(config: currentConfig, errorHandler: errorHandlerChain)
     }
 
     private func getExternalInitializerChain(using types: [ExternalServicesInitializerNode]) -> ExternalServicesInitializer {
