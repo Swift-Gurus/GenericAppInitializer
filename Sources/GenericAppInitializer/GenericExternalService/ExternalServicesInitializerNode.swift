@@ -7,14 +7,14 @@
 import Foundation
 import ALResult
 
-struct ServiceInitializerInfo {
-    var serviceName: String
+public struct ServiceInitializerInfo {
+    public let serviceName: String
 }
 
 public final class ExternalServicesHandler {
-    var didStart: ResultClosure<ServiceInitializerInfo>?
-    var didFinish: ResultClosure<ServiceInitializerInfo>?
-    var completed: ResultClosure<Bool>?
+    public var didStart: ResultClosure<ServiceInitializerInfo>?
+    public var didFinish: ResultClosure<ServiceInitializerInfo>?
+    public var completed: ResultClosure<Bool>?
 }
 
 public protocol ExternalServicesInitializer: Chainable {
@@ -23,7 +23,7 @@ public protocol ExternalServicesInitializer: Chainable {
 
 open class ExternalServicesInitializerNode: ExternalServicesInitializer {
 
-    open var serviceInitializerName: String { fatalError("Operation") }
+    open var info: ServiceInitializerInfo { fatalError("Operation") }
     private var nextLink: ExternalServicesInitializerNode?
 
     public init() {}

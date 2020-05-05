@@ -11,8 +11,8 @@ import XCTest
 
 final class ExternalServicesInitializerTypesMock: ExternalServicesInitializerNode {
     var startCount = 0
-    override var serviceInitializerName: String { "ExternalServicesInitializerTypesMock" }
-    
+    override var info: ServiceInitializerInfo { .init(serviceName: "test") }
+
     override func start(with handler: ExternalServicesHandler) {
         super.start(with: handler)
         startCount += 1
