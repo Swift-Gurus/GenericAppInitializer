@@ -25,7 +25,7 @@ final class GenericProjectTargetReader<TypeProvider: TargetTypeProvider>: Target
 
     public init() {}
     var targetType: TargetType {
-        guard let bundleID = currentBundle.bundleIdentifier else { fatalError("Couldn't not match enviroment") }
+        let bundleID = currentBundle.bundleIdentifier ?? ""
         return targetProvider.type(for: bundleID)
     }
 }
