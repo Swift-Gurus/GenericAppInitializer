@@ -9,6 +9,10 @@ import ALResult
 
 public struct ServiceInitializerInfo {
     public let serviceName: String
+    
+    public init(serviceName: String) {
+        self.serviceName = serviceName
+    }
 }
 
 public final class ExternalServicesHandler {
