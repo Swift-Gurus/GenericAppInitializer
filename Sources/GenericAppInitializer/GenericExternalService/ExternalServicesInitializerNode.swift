@@ -23,7 +23,7 @@ public protocol ExternalServicesInitializer: Chainable {
 
 open class ExternalServicesInitializerNode: ExternalServicesInitializer {
 
-    var serviceInitializerName: String { fatalError("Operation") }
+    open var serviceInitializerName: String { fatalError("Operation") }
     private var nextLink: ExternalServicesInitializerNode?
 
     public init() {}
