@@ -28,7 +28,7 @@ open class ExternalServicesInitializerNode: ExternalServicesInitializer {
 
     public init() {}
 
-    public func start(with handler: ExternalServicesHandler) {
+    open func start(with handler: ExternalServicesHandler) {
         guard let next = nextLink else {
             handler.completed?(.success(true))
             return
