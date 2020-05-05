@@ -14,6 +14,7 @@ let package = Package(
             targets: ["GenericAppInitializer"]),
     ],
     dependencies: [
+        .package(url: "https://github.com/Swift-Gurus/ALResult.git", .upToNextMajor(from: .init(0, 1, 0)))
     
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -24,7 +25,7 @@ let package = Package(
         .target(
             
             name: "GenericAppInitializer",
-            dependencies: []),
+            dependencies: ["ALResult"]),
         .testTarget(
             name: "GenericAppInitializerTests",
             dependencies: ["GenericAppInitializer"]),

@@ -1,9 +1,7 @@
+//  GenericAppInitializer
 //
-//  Chainable.swift
-//  mCrew
-//
-//  Created by Alex Hmelevski on 2020-03-04.
-//  Copyright © 2020 Aldo Group Inc. All rights reserved.
+//  Created by Alex Hmelevski on 2020-04-29.
+//  Copyright © 2019 Swift Gurus. All rights reserved.
 //
 
 import Foundation

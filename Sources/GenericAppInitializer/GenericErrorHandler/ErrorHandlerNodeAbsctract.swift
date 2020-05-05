@@ -1,20 +1,18 @@
+//  GenericAppInitializer
 //
-//  ErrorHandlerNodeAbsctract.swift
-//  mCrew
-//
-//  Created by Alex Hmelevski on 2020-03-04.
-//  Copyright © 2020 Aldo Group Inc. All rights reserved.
+//  Created by Alex Hmelevski on 2020-04-29.
+//  Copyright © 2019 Swift Gurus. All rights reserved.
 //
 
 import Foundation
 
-public protocol ErrorHandler {
+public protocol ErrorHandler: Chainable {
     func catchError(_ error: Error)
 }
 
-class ErrorHandlerNodeAbsctract: ErrorHandler {
+open class ErrorHandlerNodeAbsctract: ErrorHandler {
 
-    func catchError(_ error: Error) {
+    public func catchError(_ error: Error) {
         guard let node = next else {
             assertionFailure("Unhandled error \(error.localizedDescription)")
             return
@@ -23,4 +21,4 @@ class ErrorHandlerNodeAbsctract: ErrorHandler {
     }
 }
 
-extension ErrorHandlerNodeAbsctract: Chainable {}
+

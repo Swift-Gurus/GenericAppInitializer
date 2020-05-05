@@ -1,21 +1,20 @@
+//  GenericAppInitializer
 //
-//  ExternalServicesInitializerNode.swift
-//  mCrew
-//
-//  Created by Badreddine EL JAMALI on 2019-08-26.
-//  Copyright © 2019 Aldo Group Inc. All rights reserved.
+//  Created by Alex Hmelevski on 2020-04-29.
+//  Copyright © 2019 Swift Gurus. All rights reserved.
 //
 
 import Foundation
+import ALResult
 
 struct ServiceInitializerInfo {
     var serviceName: String
 }
 
 public final class ExternalServicesHandler {
-    var didStart: Callback<ServiceInitializerInfo>?
-    var didFinish: Callback<ServiceInitializerInfo>?
-    var completed: Callback<Bool>?
+    var didStart: ResultClosure<ServiceInitializerInfo>?
+    var didFinish: ResultClosure<ServiceInitializerInfo>?
+    var completed: ResultClosure<Bool>?
 }
 
 public protocol ExternalServicesInitializer: Chainable {
@@ -31,7 +30,7 @@ public class ExternalServicesInitializerNode: ExternalServicesInitializer {
 
     public func start(with handler: ExternalServicesHandler) {
         guard let next = nextLink else {
-            handler.completed?(.right(true))
+            handler.completed?(.success(true))
             return
         }
         next.start(with: handler)
