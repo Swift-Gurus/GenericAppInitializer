@@ -21,7 +21,7 @@ public protocol ExternalServicesInitializer: Chainable {
     func start(with handler: ExternalServicesHandler)
 }
 
-public class ExternalServicesInitializerNode: ExternalServicesInitializer {
+open class ExternalServicesInitializerNode: ExternalServicesInitializer {
 
     var serviceInitializerName: String { fatalError("Operation") }
     private var nextLink: ExternalServicesInitializerNode?
