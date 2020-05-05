@@ -12,6 +12,7 @@ public protocol ErrorHandler: Chainable {
 
 open class ErrorHandlerNodeAbsctract: ErrorHandler {
 
+    public init() {}
     public func catchError(_ error: Error) {
         guard let node = next else {
             assertionFailure("Unhandled error \(error.localizedDescription)")

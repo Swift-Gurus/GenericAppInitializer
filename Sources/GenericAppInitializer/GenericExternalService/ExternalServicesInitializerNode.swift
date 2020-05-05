@@ -26,7 +26,7 @@ public class ExternalServicesInitializerNode: ExternalServicesInitializer {
     var serviceInitializerName: String { fatalError("Operation") }
     private var nextLink: ExternalServicesInitializerNode?
 
-    required init() {}
+    public init() {}
 
     public func start(with handler: ExternalServicesHandler) {
         guard let next = nextLink else {
