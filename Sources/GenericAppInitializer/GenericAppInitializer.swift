@@ -49,6 +49,8 @@ Environment: DictionaryInitializable & TestingValueProvidable {
               target: currentTarget)
     }
     
+    private var servicesChain: ExternalServicesInitializer?
+    
     public init() {}
 
     open func getServiceProvider(config: Config,
@@ -76,6 +78,7 @@ Environment: DictionaryInitializable & TestingValueProvidable {
     public func start() {
         startServices(completion: { [weak self] _ in
             self?.processServicesResponse()
+            
         })
     }
 
@@ -83,6 +86,7 @@ Environment: DictionaryInitializable & TestingValueProvidable {
         let types = getExternalServicesInitializerTypes(config: currentConfig,
                                                         errorHandler: errorHandlerChain)
         let chain = getExternalInitializerChain(using: types)
+        servicesChain = chain
         let handler = ExternalServicesHandler()
         handler.completed = { (result) in
             result.do(completion)
@@ -92,6 +96,7 @@ Environment: DictionaryInitializable & TestingValueProvidable {
 
     private func processServicesResponse() {
         //do nothing for now
+        servicesChain = nil
     }
 
     public func launchUI(in window: Window) {
