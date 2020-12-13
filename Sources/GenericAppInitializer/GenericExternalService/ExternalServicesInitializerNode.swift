@@ -28,12 +28,11 @@ public protocol ExternalServicesInitializer: Chainable {
 open class ExternalServicesInitializerNode: ExternalServicesInitializer {
 
     open var info: ServiceInitializerInfo { fatalError("Operation") }
-    private var nextLink: ExternalServicesInitializerNode?
 
     public init() {}
 
     open func start(with handler: ExternalServicesHandler) {
-        guard let next = nextLink else {
+        guard let next = next else {
             handler.completed?(.success(true))
             return
         }
